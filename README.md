@@ -13,6 +13,4 @@ Overall, this Verilog module provides a basic implementation of a CNN image proc
 
 In the code, the channel array is directly multiplied with the laplacian filter. The user can also modify the code and input to the laplacian filter can be given form the testbench.
 
-The used Laplacial filter for Sobel Edge Detection is:  [0	 1	0
-                                                         1	-4	1
-                                                         0	 1	0 ]
+The used Laplacial filter for Sobel Edge Detection is:  [0	 1	0, 1  -4	1, 0  1	0 ]
