@@ -1,46 +1,28 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 02/24/2023 12:08:15 AM
-// Design Name: 
-// Module Name: top_CNN_Image_Processor
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+
 
 
 // Define constants
-parameter IMAGE_WIDTH = 128;
+parameter IMAGE_WIDTH = 128;     // Considered Image Width is of 128x128 pixels
 parameter IMAGE_HEIGHT = 128;
-parameter FILTER_WIDTH = 3;
+parameter FILTER_WIDTH = 3;      // Considered filter is Laplacian Filter of 3x3 size for Sobel Edge Detection.
 parameter FILTER_HEIGHT = 3;
-parameter STRIDE = 1;
-parameter NUM_CHANNELS = 3;
+parameter STRIDE = 1;            // Stride is considered to be 1
+parameter NUM_CHANNELS = 3;      // Number of Channels is 3
 
 module top_CNN_Image_Processor(clk,reset,S,X,Y,Z,E,Save);
   
-  input clk;
-  input reset;
-  input S;
-  input [7:0]X;
+  input clk;                     // Clock input
+  input reset;                   // Reset signal
+  input S;                       // Start Switch. If = 1, Then ON else OFF. This can be used as enable signal
+  input [7:0]X;                  // These are the inputs from the testbench. X,Y and Z represents the input of each channel R,G and B.
   input [7:0]Y;
   input [7:0]Z;
   
-  output logic signed [12:0]E;
-  output logic Save;
+  output logic signed [12:0]E;   // This variable E is used for taking the output using testbench into a .txt file which can be converted to image using pyton or any other script.
+  output logic Save;             // This enables saving the data into an output file once the conversion process is complete. 
   
-  integer i = 0;
+  integer i = 0;                 // Various variables used in conversion
   integer j = 0;
   integer k = 0;
   integer l = 0;
@@ -54,20 +36,20 @@ module top_CNN_Image_Processor(clk,reset,S,X,Y,Z,E,Save);
   integer w = 0;
   integer x = 0; 
   
-  bit Fill_Flag = 0;
+  bit Fill_Flag = 0;            // Flags used for telling the user that the particular process is complete
   bit Mul_Flag = 0;
   bit Add_Flag = 0;
   bit Done_Flag = 0;
   
-  logic  [7:0] R_data [IMAGE_WIDTH-1:0][IMAGE_HEIGHT-1:0];
+  logic  [7:0] R_data [IMAGE_WIDTH-1:0][IMAGE_HEIGHT-1:0];   // Stores data of each channel
   logic  [7:0] G_data [IMAGE_WIDTH-1:0][IMAGE_HEIGHT-1:0];
   logic  [7:0] B_data [IMAGE_WIDTH-1:0][IMAGE_HEIGHT-1:0];
   
-  logic  signed [10:0] R_Int [(IMAGE_WIDTH-FILTER_WIDTH):0][(IMAGE_HEIGHT-FILTER_HEIGHT):0];
+  logic  signed [10:0] R_Int [(IMAGE_WIDTH-FILTER_WIDTH):0][(IMAGE_HEIGHT-FILTER_HEIGHT):0];  // Stores Intermediate values of each channel in the process of conversion 
   logic  signed [10:0] G_Int [(IMAGE_WIDTH-FILTER_WIDTH):0][(IMAGE_HEIGHT-FILTER_HEIGHT):0];
   logic  signed [10:0] B_Int [(IMAGE_WIDTH-FILTER_WIDTH):0][(IMAGE_HEIGHT-FILTER_HEIGHT):0];  
   
-  logic signed [12:0] Image_Add [(IMAGE_WIDTH-FILTER_WIDTH):0][(IMAGE_WIDTH-FILTER_WIDTH):0];
+  logic signed [12:0] Image_Add [(IMAGE_WIDTH-FILTER_WIDTH):0][(IMAGE_WIDTH-FILTER_WIDTH):0]; // The outfile is sent using the testbench using this array. This array stores teh final output of the process
  
   always_ff @(posedge clk or negedge reset)
   begin
