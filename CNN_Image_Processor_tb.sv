@@ -54,7 +54,7 @@ end
 initial
 begin
     #10
-    File_R = $fopen("C:/Users/RAJESH KUMAR/Desktop/Digital_IC_Assign/CNN_Assign_03/Image_Array/R_1.txt","r");
+    File_R = $fopen("Mention the directory of file where input of R channel is stored as .txt file","r");
     while (!$feof(File_R))
     begin
         $fscanf(File_R,"%d\n",X);
@@ -66,7 +66,7 @@ end
 initial
 begin
     #10
-    File_G = $fopen("C:/Users/RAJESH KUMAR/Desktop/Digital_IC_Assign/CNN_Assign_03/Image_Array/G_1.txt","r");
+    File_G = $fopen("Mention the directory of file where input of G channel is stored as .txt file","r");
     while (!$feof(File_G))
     begin
         $fscanf(File_G,"%d\n",Y);
@@ -78,7 +78,7 @@ end
 initial
 begin
     #10
-    File_B = $fopen("C:/Users/RAJESH KUMAR/Desktop/Digital_IC_Assign/CNN_Assign_03/Image_Array/B_1.txt","r");
+    File_B = $fopen("Mention the directory of file where input of G channel is stored as .txt file","r");
     while (!$feof(File_B))
         begin
             $fscanf(File_B,"%d\n",Z);
@@ -92,7 +92,7 @@ begin
     #50
     while(Save!=1) 
     #1;
-    File_OUT = $fopen("C:/Users/RAJESH KUMAR/Desktop/Digital_IC_Assign/CNN_Assign_03/Image_Array/Output_Image_Pixels.txt","w");
+    File_OUT = $fopen("Mention the directory of file where output of the CNN image Processor needs to be stored in a .txt file","w");
     while ( Save == 1 && z < 126*126 )
         begin
             $fwrite(File_OUT,"%d\n",E);
